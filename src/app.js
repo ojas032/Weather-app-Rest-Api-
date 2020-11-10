@@ -35,14 +35,25 @@ app.get('/weather',(req,res)=>{
            else{
             const data=JSON.parse(response.body);
             forcast(data,(error,resp)=>{
+                if(!error){
                 console.log(resp);
-                res.render('index',{
+                res.send({
                     title:'Weather',
                     weather:resp.weather,
                     temp:resp.temp,
                     location:resp.location,
                     searched_location:req.query.address,
                 });
+            }
+            else{
+                res.send({
+                    title:'Weather',
+                    weather:"Not found",
+                    temp:"Not found",
+                    location:"Enter a valid location",
+                    searched_location:req.query.address,
+                })
+            }
             });
            }
     })
@@ -52,13 +63,13 @@ app.get('/weather',(req,res)=>{
 })
 
 app.get('/help',(req,res)=>{
-    res.render('help',{
+   return  res.render('help',{
         title:'Help',
     });
 })
 
 app.get('/about',(req,res)=>{
-    res.render('about',{
+   return res.render('about',{
         title:'About',
         
     });
